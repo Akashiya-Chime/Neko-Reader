@@ -23,7 +23,7 @@
 - **vuejs** -> 考虑到今年可能会出 3.0 版本，所以可能会学习使用 vue3 来作为开发框架使用
   + vue 全家桶（没学，还搞不懂每个的用处，甚至不知道是否都要学）
     * vue-router
-    * vuex
+    * vuex (小项目暂不考虑)
     * vue-cli
     * vue-devtools
   + nodejs（没办法，虽然可能没有后端的内容，但是 electron 和 vue 都和 node 有关系）
@@ -40,7 +40,7 @@
 
 ## 代码仓库
 
-（还没建）
+[Neko-Reader.github](https://github.com/Akashiya-Chime/Neko-Reader/)
 
 ## 参考文档
 
