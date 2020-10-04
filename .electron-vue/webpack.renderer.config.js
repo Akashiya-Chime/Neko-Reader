@@ -44,7 +44,17 @@ let rendererConfig = {
       },
       {
         test: /\.less$/,
-        use: ['vue-style-loader', 'css-loader', 'less-loader']
+        use: [
+          'vue-style-loader',
+          'css-loader',
+          'less-loader',
+          {
+            loader: 'sass-resources-loader',
+            options: {
+              resources: path.resolve(__dirname, '../src/renderer/assets/less/main.less')
+            }
+          }
+        ]
       },
       {
         test: /\.css$/,
