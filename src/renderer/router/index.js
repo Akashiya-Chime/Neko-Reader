@@ -15,12 +15,26 @@ export default new Router({
       // 引导页
       path: '/',
       name: 'home-page',
-      component: require('@/components/HomePage').default
+      components: {
+        shell: require('@/components/Shell').default,
+        view: require('@/components/HomePage').default
+      }
+    },
+    {
+      path: '/setting',
+      name: 'setting',
+      components: {
+        shell: require('@/components/Shell').default,
+        view: require('@/components/SettingPage').default
+      }
+    },
+    {
+      path: '/bookcase',
+      name: 'bookcase',
+      components: {
+        shell: require('@/components/Shell').default,
+        view: require('@/components/BookCase.vue').default
+      }
     }
-    // {
-    //   path: '/setting-page',
-    //   name: 'setting-page',
-    //   component: require('@/components/SettingPage').default
-    // }
   ]
 })

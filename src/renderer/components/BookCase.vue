@@ -1,6 +1,6 @@
 <template>
     <div id="wrapper">
-      <div>This is setting page</div>
+      <div>This is bookcase page</div>
       <button @click="back">back</button>
     </div>
 </template>
