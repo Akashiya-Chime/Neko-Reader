@@ -1,6 +1,6 @@
 'use strict'
 
-import { app, BrowserWindow } from 'electron'
+import { app, BrowserWindow ,Menu} from 'electron'
 
 /**
  * Set `__static` path to static files in production
@@ -16,13 +16,18 @@ const winURL = process.env.NODE_ENV === 'development'
   : `file://${__dirname}/index.html`
 
 function createWindow () {
+	Menu.setApplicationMenu(null) //关闭菜单
   /**
    * Initial window options
    */
   mainWindow = new BrowserWindow({
     height: 563,
     useContentSize: true,
-    width: 1000
+    width: 1000,
+     frame: false,//无边框
+     webPreferences: {
+      preload: path.join(__dirname, 'preload.js'),
+    }
   })
 
   mainWindow.loadURL(winURL)
@@ -30,6 +35,23 @@ function createWindow () {
   mainWindow.on('closed', () => {
     mainWindow = null
   })
+let ipcMain = require('electron').ipcMain;
+//接收最小化命令
+ipcMain.on('window-min', function() {
+    mainWindow.minimize();
+})
+//接收最大化命令
+ipcMain.on('window-max', function() {
+    if (mainWindow.isMaximized()) {
+        mainWindow.restore();
+    } else {
+        mainWindow.maximize();
+    }
+})
+//接收关闭命令
+ipcMain.on('window-close', function() {
+    mainWindow.close();
+})
 }
 
 app.on('ready', createWindow)
@@ -65,3 +87,8 @@ app.on('ready', () => {
   if (process.env.NODE_ENV === 'production') autoUpdater.checkForUpdates()
 })
  */
+
+
+
+
+
