@@ -5,14 +5,17 @@
       <button @click="setting">设置</button>
     </div>
     <div id="header">header
-      <button>缩小到托盘</button>
-      <button>全屏</button>
-      <button>关闭</button>
+      <button @click="min">缩小到托盘</button>
+      <button @click="max">全屏</button>
+      <button @click="close">关闭</button>
     </div>
   </div>
 </template>
 
 <script>
+
+const { ipcRenderer } = require('electron')
+
 export default {
   methods: {
     bookcase () {
@@ -20,6 +23,15 @@ export default {
     },
     setting () {
       this.$router.push('setting')
+    },
+    min () {
+      ipcRenderer.send('window-min')
+    },
+    max () {
+      ipcRenderer.send('window-max')
+    },
+    close () {
+      ipcRenderer.send('window-close')
     }
   }
 }

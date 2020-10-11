@@ -1,7 +1,8 @@
 'use strict'
 
-import { app, BrowserWindow } from 'electron'
+import { app, BrowserWindow, Menu } from 'electron'
 
+// const path = require('path')
 /**
  * Set `__static` path to static files in production
  * https://simulatedgreg.gitbooks.io/electron-vue/content/en/using-static-assets.html
@@ -16,19 +17,51 @@ const winURL = process.env.NODE_ENV === 'development'
   : `file://${__dirname}/index.html`
 
 function createWindow () {
+  // 关闭菜单栏
+  Menu.setApplicationMenu(null)
   /**
    * Initial window options
    */
   mainWindow = new BrowserWindow({
     height: 563,
     useContentSize: true,
-    width: 1000
+    width: 1000,
+    // 无边框
+    frame: false,
+    webPreferences: {
+      // 似乎是要防止什么问题，留着
+      nodeIntegration: true
+    }
   })
+
+  // 调用方法，关闭开发者工具
+  mainWindow.webContents.closeDevTools()
 
   mainWindow.loadURL(winURL)
 
   mainWindow.on('closed', () => {
     mainWindow = null
+  })
+
+  let ipcMain = require('electron').ipcMain
+
+  // 接收最小化命令
+  ipcMain.on('window-min', () => {
+    mainWindow.minimize()
+  })
+
+  // 接收最大化命令
+  ipcMain.on('window-max', () => {
+    if (mainWindow.isMaximized()) {
+      mainWindow.restore()
+    } else {
+      mainWindow.maximize()
+    }
+  })
+
+  // 接收关闭命令
+  ipcMain.on('window-close', () => {
+    mainWindow.close()
   })
 }
 
