@@ -1,5 +1,5 @@
 <template>
-    <div id="wrapper">
+    <div id="setting">
       <div>This is setting page</div>
       <button @click="back">back</button>
     </div>
@@ -14,3 +14,10 @@ export default {
   }
 }
 </script>
+
+<style lang="less">
+#setting {
+    width: 100%;
+    height: 100vh;
+}
+</style>

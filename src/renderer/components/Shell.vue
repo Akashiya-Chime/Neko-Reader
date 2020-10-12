@@ -1,13 +1,15 @@
 <template>
   <div id="wrapper">
-    <div id="left-header">leftbar
+    <div id="left-header">
       <button @click="bookcase">书架</button>
       <button @click="setting">设置</button>
     </div>
-    <div id="header">header
-      <button @click="min">缩小到托盘</button>
-      <button @click="max">全屏</button>
-      <button @click="close">关闭</button>
+    <div id="header">
+      <div id="switch">
+        <button @click="min">最小化</button>
+        <button @click="max">最大化</button>
+        <button @click="close">关闭</button>
+      </div>
     </div>
   </div>
 </template>
@@ -57,11 +59,16 @@ html {
   top: 0;
   width: @headerWidth;
   height: 200px;
-  background-color: grey;
+  background-color: #808080;
   button {
+    height: 40px;
     word-wrap: break-word;
     position: relative;
     width: 100%;
+    border: none;
+  }
+  button:hover {
+    background-color: #ffffff;
   }
 }
 #header {
@@ -69,12 +76,26 @@ html {
   left: 45px;
   width: 100%;
   height: @headerHeight;
-  background-color: red;
+  background-color: #d8d7d7fa;
   -webkit-app-region: drag;
+}
+#switch {
+  position: relative;
+  overflow: auto;
+  -webkit-app-region: no-drag;
+  float: right;
+  margin-right: 45px;
   button {
-    position: relative;
-    overflow: auto;
-    -webkit-app-region: no-drag
+    float: left;
+    background-color: white;
+    color: #FFFAFAFA;
+    border: none;
+    height: @headerHeight;
+    width: 45px;
+    text-align: center;
+  }
+  button:hover {
+    background-color: grey;
   }
 }
 </style>
