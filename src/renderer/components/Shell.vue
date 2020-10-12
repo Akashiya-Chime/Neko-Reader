@@ -70,9 +70,11 @@ html {
   width: 100%;
   height: @headerHeight;
   background-color: red;
+  -webkit-app-region: drag;
   button {
     position: relative;
     overflow: auto;
+    -webkit-app-region: no-drag
   }
 }
 </style>

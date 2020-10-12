@@ -32,6 +32,8 @@ function createWindow () {
       // 似乎是要防止什么问题，留着
       nodeIntegration: true
     }
+    // 透明窗口
+    // transparent: true
   })
 
   // 调用方法，关闭开发者工具
