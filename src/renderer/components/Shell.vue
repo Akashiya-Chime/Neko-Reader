@@ -50,16 +50,19 @@ export default {
   padding: 0;
   text-decoration: none;
 }
-html {
-  overflow: hidden; // 禁用滚动条后却依然会有右边有空缺的感觉
-}
+// html {
+//   overflow: hidden; // 禁用滚动条后却依然会有右边有空缺的感觉
+// }
 #left-header {
   position: absolute;
   left: 0;
-  top: 0;
+  top: 30px;
   width: @headerWidth;
   height: 200px;
   background-color: #808080;
+  position: fixed;  // 固定定位
+  z-index: 100;  // 置顶
+  border-radius: 0 0 45px 0;
   button {
     height: 40px;
     word-wrap: break-word;
@@ -73,21 +76,22 @@ html {
 }
 #header {
   position: absolute;
-  left: 45px;
+  left: 0px;
   width: 100%;
   height: @headerHeight;
-  background-color: #d8d7d7fa;
+  background-color: #e5eecc;
+  position: fixed;
   -webkit-app-region: drag;
+  z-index: 100;  // 置顶
 }
 #switch {
   position: relative;
   overflow: auto;
   -webkit-app-region: no-drag;
   float: right;
-  margin-right: 45px;
   button {
     float: left;
-    background-color: white;
+    background-color: #e5eecc;
     color: #FFFAFAFA;
     border: none;
     height: @headerHeight;

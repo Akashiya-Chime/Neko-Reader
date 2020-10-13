@@ -1,7 +1,10 @@
 <template>
     <div id="setting">
-      <div>This is setting page</div>
-      <button @click="back">back</button>
+      <div id="content">
+        <div>This is setting page</div>
+        <button @click="back">back</button>
+      </div>
+
     </div>
 </template>
 
@@ -19,5 +22,9 @@ export default {
 #setting {
     width: 100%;
     height: 100vh;
+}
+#content {
+  padding-left: 45px;
+  padding-top: 30px;
 }
 </style>

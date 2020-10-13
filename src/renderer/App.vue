@@ -19,9 +19,10 @@
 * {
   padding: 0;
   margin: 0;
+  font-family: 'Microsoft YaHei';
 }
-#view {
-  margin-left: 45px;
-  padding-top: 30px;
+#shell {
+  z-index: 100;
+  overflow: visible;
 }
 </style>

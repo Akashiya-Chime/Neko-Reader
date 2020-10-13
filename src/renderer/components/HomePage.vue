@@ -1,5 +1,8 @@
 <template>
     <div id="home">
+        <div id="content">
+
+        </div>
     </div>
 </template>
 
@@ -7,7 +10,5 @@
 #home {
     width: 100%;
     height: 100vh;
-    background-color: black;
-    opacity: 0.2;
 }
 </style>
