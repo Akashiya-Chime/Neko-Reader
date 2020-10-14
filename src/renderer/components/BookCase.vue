@@ -23,7 +23,7 @@ export default {
     height: 100vh;
 }
 #content {
-  padding-left: 45px;
-  padding-top: 30px;
+  padding-left: 60px;
+  padding-top: 45px;
 }
 </style>
