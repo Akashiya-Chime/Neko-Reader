@@ -18,10 +18,13 @@ const { remote } = require('electron')
 const fs = require('fs')
 
 export default {
-  data: {
-    innerBook: null
+  data () {
+    return {
+      innerBook: null
+    }
   },
   methods: {
+    // 异步方法，读取书
     async addBook () {
       const result = await remote.dialog.showOpenDialog({
         properties: ['openFile']
@@ -30,10 +33,28 @@ export default {
         if (err) {
           throw err
         }
-        console.log(data.toString())
-        let a = document.getElementById('inner')
-        a.innerHTML = data.toString()
+        // 切片
+        // 保证换行
+        let dataStr = data.toString().replace(/\r\n/g, '<br />')
+        window.dataPiece = []
+        let dataIndex = 0
+        for (let anchor = 0; dataIndex < dataStr.length; anchor += 10000) {
+          window.dataPiece[dataIndex] = dataStr.slice(anchor, anchor + 10000)
+          dataIndex++
+        }
+        // 渲染
+        window.index = 0
+        document.getElementById('inner').innerHTML += window.dataPiece[window.index]
       })
+    }
+  },
+  // 加载页面后调用该方法
+  mounted: function () {
+    window.onscroll = () => {
+      // 检测是否滚动到底部
+      if (window.pageYOffset + window.innerHeight + 1 > document.documentElement.scrollHeight) {
+        document.getElementById('inner').innerHTML += window.dataPiece[window.index++]
+      }
     }
   }
 }
