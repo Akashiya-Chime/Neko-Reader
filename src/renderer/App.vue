@@ -4,15 +4,19 @@
       <router-view name="shell"></router-view>
     </div>
     <div id="view">
-      <router-view name="view"></router-view>
+      <!-- <router-view name="view"></router-view> -->
+      <keep-alive>
+        <router-view name="view" v-if="this.$route.meta.keepAlive"></router-view>
+      </keep-alive>
+      <router-view name="view" v-if="!this.$route.meta.keepAlive"></router-view>
     </div>
   </div>
 </template>
 
 <script>
-  export default {
-    name: 'neko-reader'
-  }
+export default {
+  name: 'neko-reader'
+}
 </script>
 
 <style lang="less">

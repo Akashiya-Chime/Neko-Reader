@@ -14,10 +14,14 @@ export default new Router({
     {
       // 引导页
       path: '/',
-      name: 'home-page',
+      name: 'bookcase',
       components: {
         shell: require('@/components/Shell').default,
-        view: require('@/components/HomePage').default
+        view: require('@/components/Bookcase').default
+      },
+      meta: {
+        // 是否储存页面信息
+        keepAlive: false
       }
     },
     {
@@ -29,11 +33,14 @@ export default new Router({
       }
     },
     {
-      path: '/bookcase',
-      name: 'bookcase',
+      path: '/reading',
+      name: 'reading',
       components: {
         shell: require('@/components/Shell').default,
-        view: require('@/components/BookCase.vue').default
+        view: require('@/components/Reading').default
+      },
+      meta: {
+        keepAlive: true
       }
     }
   ]

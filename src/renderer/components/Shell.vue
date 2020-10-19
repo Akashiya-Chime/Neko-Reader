@@ -2,6 +2,7 @@
   <div id="wrapper">
     <div id="left-header">
       <button @click="bookcase">书架</button>
+      <button @click="reading">阅读</button>
       <button @click="setting">设置</button>
     </div>
     <div id="header">
@@ -21,7 +22,10 @@ const { ipcRenderer } = require('electron')
 export default {
   methods: {
     bookcase () {
-      this.$router.push('bookcase')
+      this.$router.push('/')
+    },
+    reading () {
+      this.$router.push('reading')
     },
     setting () {
       this.$router.push('setting')
