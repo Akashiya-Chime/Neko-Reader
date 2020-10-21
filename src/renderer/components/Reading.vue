@@ -11,7 +11,11 @@
 
 <script>
 export default {
-
+  data () {
+    return {
+      innerBook: null
+    }
+  }
 }
 </script>
 

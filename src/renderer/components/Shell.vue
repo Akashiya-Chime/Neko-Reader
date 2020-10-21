@@ -7,9 +7,9 @@
     </div>
     <div id="header">
       <div id="switch">
-        <button @click="min">最小化</button>
-        <button @click="max">最大化</button>
-        <button @click="close">关闭</button>
+        <img :src="windowMin" @click="min">
+        <img :src="windowMax" @click="max">
+        <img :src="windowClose" @click="close">
       </div>
     </div>
   </div>
@@ -20,6 +20,13 @@
 const { ipcRenderer } = require('electron')
 
 export default {
+  data () {
+    return {
+      windowMin: require('@/assets/img/min.png'),
+      windowMax: require('@/assets/img/max.png'),
+      windowClose: require('@/assets/img/close.png')
+    }
+  },
   methods: {
     bookcase () {
       this.$router.push('/')
@@ -38,6 +45,15 @@ export default {
     },
     close () {
       ipcRenderer.send('window-close')
+    }
+  },
+  mounted: function () {
+    window.onresize = () => {
+      if (window.outerHeight === screen.availHeight && window.outerWidth === screen.availWidth) {
+        this.windowMax = require('@/assets/img/max(ed).png')
+      } else {
+        this.windowMax = require('@/assets/img/max.png')
+      }
     }
   }
 }
@@ -102,7 +118,13 @@ export default {
     width: 45px;
     text-align: center;
   }
-  button:hover {
+  img {
+    float: left;
+    border: none;
+    height: @headerHeight;
+    width: 45px;
+  }
+  img:hover {
     background-color: grey;
   }
 }
