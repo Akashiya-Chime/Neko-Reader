@@ -61,7 +61,22 @@ export default {
       if (window.pageYOffset + window.innerHeight + 1 > document.documentElement.scrollHeight) {
         document.getElementById('inner').innerHTML += window.dataPiece[window.index++]
       }
-    }
+    };
+    //拖拽事件
+    var dp = document.getElementById('content');
+    dp.addEventListener('dragover', function(e) {
+      e.stopPropagation();
+      e.preventDefault();
+      e.dataTransfer.dropEffect = 'copy';
+    });
+    dp.addEventListener("drop", function(e) {
+      e.stopPropagation();
+      e.preventDefault();
+      var files = e.dataTransfer.files;
+      console.log(files)
+      //files是一个文件对象列表
+      // do someting
+    });
   }
 }
 </script>
