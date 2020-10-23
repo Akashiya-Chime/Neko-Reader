@@ -1,6 +1,7 @@
 'use strict'
 
 import { app, BrowserWindow, Menu } from 'electron'
+import { send } from 'process'
 
 // const path = require('path')
 /**
