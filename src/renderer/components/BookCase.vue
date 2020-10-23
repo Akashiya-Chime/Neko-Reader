@@ -31,11 +31,14 @@ export default {
         // 允许选择文件:'openFile',允许选择文件夹:'openDirectory',允许多选:'multiSelections'
         properties: ['openFile', 'multiSelections']
       })
+      this.showBook(result[0])
       // 如果打开了文件，则跳转到阅读界面
-      if (result) {
-        this.Books.push(result[0].match(/\.txt/g))
+    },
+    showBook (bookAdress) {
+      if (bookAdress) {
+        this.Books.push(bookAdress)
         this.$router.push('/reading')
-        fs.readFile(result[0], 'utf-8', (err, data) => {
+        fs.readFile(bookAdress, 'utf-8', (err, data) => {
           if (err) {
             throw err
           }
@@ -63,22 +66,21 @@ export default {
       if (window.pageYOffset + window.innerHeight + 1 > document.documentElement.scrollHeight) {
         document.getElementById('inner').innerHTML += window.dataPiece[window.index++]
       }
-    };
-    //拖拽事件
-    var dp = document.getElementById('content');
-    dp.addEventListener('dragover', function(e) {
-      e.stopPropagation();
-      e.preventDefault();
-      e.dataTransfer.dropEffect = 'copy';
-    });
-    dp.addEventListener("drop", function(e) {
-      e.stopPropagation();
-      e.preventDefault();
-      var files = e.dataTransfer.files;
-      console.log(files)
-      //files是一个文件对象列表
-      // do someting
-    });
+    }
+    // 拖拽事件
+    let dp = window
+    dp.addEventListener('dragover', (e) => {
+      e.stopPropagation()
+      e.preventDefault()
+      e.dataTransfer.dropEffect = 'copy'
+    })
+    dp.addEventListener('drop', (e) => {
+      e.stopPropagation()
+      e.preventDefault()
+      let files = e.dataTransfer.files
+      // files是一个文件对象列表
+      this.showBook(files[0].path)
+    })
   }
 }
 </script>

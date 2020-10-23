@@ -13,7 +13,7 @@
 export default {
   data () {
     return {
-      innerBook: null
+      innerBook: ''
     }
   }
 }
