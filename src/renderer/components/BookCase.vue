@@ -2,12 +2,13 @@
   <div id="home">
     <div id="content">
       <h4>书架</h4>
-      <ul>
+      <div>
+        <!-- vue 会推荐 v-bind:key (相当于 SQL 的主键?) -->
+        <div id="books" v-for="Books in Books" :key="Books">{{ Books }}</div>
         <div>
           <button @click="addBook">+</button>
         </div>
-        <div id="books">{{ Books }}</div>
-      </ul>
+      </div>
     </div>
   </div>
 </template>
@@ -20,7 +21,7 @@ const fs = require('fs')
 export default {
   data () {
     return {
-      Books: null
+      Books: []
     }
   },
   methods: {
@@ -32,6 +33,7 @@ export default {
       })
       // 如果打开了文件，则跳转到阅读界面
       if (result) {
+        this.Books.push(result[0].match(/\.txt/g))
         this.$router.push('/reading')
         fs.readFile(result[0], 'utf-8', (err, data) => {
           if (err) {
@@ -72,9 +74,13 @@ export default {
   height: 100vh;
 }
 #content {
-  ul {
+  div {
     list-style: none;
+    position: relative;
+    float: left;
     div {
+      text-align: center;
+      word-break: break-all;
       margin-top: 20px;
       margin-left: 20px;
       display: inline-block;

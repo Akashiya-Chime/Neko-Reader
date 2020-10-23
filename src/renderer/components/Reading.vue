@@ -3,7 +3,7 @@
       <div id="content">
         <h4>阅读</h4>
         <ul>
-          <li id="inner">{{ innerBook }}</li>
+          <div id="inner">{{ innerBook }}</div>
         </ul>
       </div>
     </div>

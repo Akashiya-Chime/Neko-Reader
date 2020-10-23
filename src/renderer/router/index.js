@@ -21,7 +21,7 @@ export default new Router({
       },
       meta: {
         // 是否储存页面信息
-        keepAlive: false
+        keepAlive: true
       }
     },
     {
