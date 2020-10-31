@@ -4,7 +4,8 @@
       <h4>书架</h4>
       <div>
         <!-- vue 会推荐 v-bind:key (相当于 SQL 的主键?) -->
-        <div id="books" v-for="Books in Books" :key="Books">{{ Books }}</div>
+        <div id="books" v-for="Books in Books" :key="Books.bookName" @click="showBook(Books.bookAdress)">
+          {{ Books.bookName }}</div>
         <div>
           <button @click="addBook">+</button>
         </div>
@@ -14,7 +15,7 @@
 </template>
 
 <script>
-
+import path from 'path'
 const { remote } = require('electron')
 const fs = require('fs')
 
@@ -32,24 +33,38 @@ export default {
         properties: ['openFile', 'multiSelections']
       })
       this.showBook(result[0])
-      // 如果打开了文件，则跳转到阅读界面
+      // 信息保存到 json 文件中
+      fs.readFile(path.resolve(__dirname, '../config/bookMsg.json'), 'utf-8', (err, data) => {
+        if (err) throw err
+        let res = JSON.parse(data).concat({
+          bookAdress: result[0],
+          bookName: result[0].match(/[^\\]+\.txt$/)[0]
+        })
+        fs.writeFile(path.resolve(__dirname, '../config/bookMsg.json'), JSON.stringify(res), (err) => {
+          if (err) throw err
+        })
+        this.Books.push(result[0].match(/[^\\]+\.txt$/)[0])
+      })
     },
     showBook (bookAdress) {
+      // 如果打开了文件，则跳转到阅读界面
       if (bookAdress) {
-        this.Books.push(bookAdress)
+        // this.Books.push(bookAdress.match(/[^\\]+\.txt$/)[0])
         this.$router.push('/reading')
         fs.readFile(bookAdress, 'utf-8', (err, data) => {
           if (err) {
             throw err
           }
+          // 重载内容
+          document.getElementById('inner').innerHTML = ''
           // 切片
           // 保证换行
           let dataStr = data.toString().replace(/\r\n/g, '<br />')
           window.dataPiece = []
           let dataIndex = 0
           // 最后 += 的数字代表每次加载的字符数
-          for (let anchor = 0; dataIndex < dataStr.length; anchor += 10000) {
-            window.dataPiece[dataIndex] = dataStr.slice(anchor, anchor + 10000)
+          for (let anchor = 0; dataIndex < dataStr.length; anchor += 8000) {
+            window.dataPiece[dataIndex] = dataStr.slice(anchor, anchor + 8000)
             dataIndex++
           }
           // 渲染
@@ -69,17 +84,23 @@ export default {
     }
     // 拖拽事件
     let dp = window
-    dp.addEventListener('dragover', (e) => {
-      e.stopPropagation()
-      e.preventDefault()
-      e.dataTransfer.dropEffect = 'copy'
+    dp.addEventListener('dragover', (ev) => {
+      ev.stopPropagation()
+      ev.preventDefault()
+      ev.dataTransfer.dropEffect = 'copy'
     })
-    dp.addEventListener('drop', (e) => {
-      e.stopPropagation()
-      e.preventDefault()
-      let files = e.dataTransfer.files
+    dp.addEventListener('drop', (ev) => {
+      ev.stopPropagation()
+      ev.preventDefault()
+      let files = ev.dataTransfer.files
       // files是一个文件对象列表
       this.showBook(files[0].path)
+    })
+    // 读取 bookMsg 文件，获取书信息
+    fs.readFile(path.resolve(__dirname, '../config/bookMsg.json'), 'utf-8', (err, data) => {
+      if (err) throw err
+      data = JSON.parse(data)
+      this.Books = data
     })
   }
 }
@@ -133,5 +154,8 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+#books:hover {
+  opacity: 0.8;
 }
 </style>
