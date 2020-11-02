@@ -18,6 +18,7 @@
 import path from 'path'
 const { remote } = require('electron')
 const fs = require('fs')
+// const { GetEncoding } = require('../encoding/GetEncoding')
 
 export default {
   data () {
@@ -72,6 +73,16 @@ export default {
           document.getElementById('inner').innerHTML += window.dataPiece[window.index]
         })
       }
+      // // 判断编码
+      // if (bookAdress) {
+      //   fs.readFile(bookAdress, (err, data) => {
+      //     if (err) throw err
+      //     console.log(GetEncoding(data))
+      //   })
+      // }
+    },
+    ok () {
+      fs.readFile()
     }
   },
   // 加载页面后调用该方法
