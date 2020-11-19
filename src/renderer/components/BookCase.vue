@@ -4,10 +4,12 @@
       <h4>书架</h4>
       <div>
         <!-- vue 会推荐 v-bind:key (相当于 SQL 的主键?) -->
-        <div id="books" v-for="Books in Books" :key="Books.bookName" @click="showBook(Books.bookAdress)">
-          {{ Books.bookName }}</div>
+        <div id="books" v-for="(Books, index) in Books" :key="index" 
+                        @click="showBook(Books.bookAdress)" style="cursor: pointer">
+          {{ Books.bookName }}
+          <button id="del" @click.stop="delBook(Books, index)">X</button></div>
         <div>
-          <button @click="addBook">+</button>
+          <button id="ad" @click="addBook">+</button>
         </div>
       </div>
     </div>
@@ -33,10 +35,10 @@ export default {
         // 允许选择文件:'openFile',允许选择文件夹:'openDirectory',允许多选:'multiSelections'
         properties: ['openFile', 'multiSelections']
       })
-      this.showBook(result[0])
       // 信息保存到 json 文件中
       fs.readFile(path.resolve(__dirname, '../config/bookMsg.json'), 'utf-8', (err, data) => {
         if (err) throw err
+        this.showBook(result[0])
         let res = JSON.parse(data).concat({
           bookAdress: result[0],
           bookName: result[0].match(/[^\\]+\.txt$/)[0]
@@ -46,6 +48,7 @@ export default {
         })
         this.Books.push(result[0].match(/[^\\]+\.txt$/)[0])
       })
+      // location.reload()
     },
     showBook (bookAdress) {
       // 如果打开了文件，则跳转到阅读界面
@@ -83,6 +86,24 @@ export default {
     },
     ok () {
       fs.readFile()
+    },
+    delBook (books, index) {
+      let bookName = books.bookName
+      fs.readFile(path.resolve(__dirname, '../config/bookMsg.json'), 'utf-8', (err, data) => {
+        if (err) throw err
+        let bookinfo = JSON.parse(data)
+        // console.log(bookName)
+        for (let index in bookinfo) {
+          if (bookinfo[index].bookName === bookName) {
+            bookinfo.splice(index, 1)
+          }
+        }
+        fs.writeFile(path.resolve(__dirname, '../config/bookMsg.json'), JSON.stringify(bookinfo), (err) => {
+          if (err) throw err
+        })
+        // 通过 splice 删除
+        this.Books.splice(index, 1)
+      })
     }
   },
   // 加载页面后调用该方法
@@ -139,13 +160,6 @@ export default {
       display: flex;
       justify-content: center;
       align-items: center;
-      button {
-        width: 45px;
-        height: 45px;
-        border-radius: 22.5px;
-        border: none;
-        font-size: 25px;
-      }
       button:hover {
         opacity: 0.5;
       }
@@ -154,6 +168,13 @@ export default {
       }
     }
   }
+}
+#ad {
+  width: 45px;
+  height: 45px;
+  border-radius: 22.5px;
+  border: none;
+  font-size: 25px;
 }
 #books {
   margin-top: 20px;
@@ -165,8 +186,21 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
+  button {
+    display: none;
+  }
 }
-#books:hover {
+#books:hover button{
   opacity: 0.8;
+  display: block;
+}
+#del {
+  border: 0;
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 30px;
+  width: 30px;
+  border-radius: 0 0 0 10px;
 }
 </style>
